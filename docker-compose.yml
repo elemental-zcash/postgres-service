@@ -1,0 +1,36 @@
+version: '3'
+services:
+  database:
+    build: ./postgres
+    volumes:
+      - ./postgres/data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    hostname: database
+    container_name: database
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      elemental_net:
+        aliases:
+          - postgres
+  database_manager:
+    build: ./postgres-manager
+    env_file:
+      ./.env
+    links:
+      - database
+    networks:
+      - elemental_net
+    depends_on:
+      database:
+        condition: service_healthy
+networks:
+  elemental_net:
+    external: true
