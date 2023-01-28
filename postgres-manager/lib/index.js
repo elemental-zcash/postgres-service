@@ -29,7 +29,7 @@ const main = async () => {
         // $n:raw is trusted hardcoded input
           const roleExists = await db.any("SELECT * from pg_user where usename = '$1:raw'", [username || databaseName]);
 
-          if (!roleExists) {
+          if (!roleExists || (Array.isArray(roleExists) && roleExists.length === 0)) {
             await db.none(`CREATE ROLE $1:raw WITH NOSUPERUSER LOGIN PASSWORD $2`, [username || databaseName, password]);
             await db.none('CREATE DATABASE $1:name', [databaseName]);
             await db.none('GRANT ALL PRIVILEGES ON DATABASE $1:name TO $2:raw', [databaseName, username || databaseName]);
