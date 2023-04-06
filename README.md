@@ -25,3 +25,7 @@ Environment variable config:
 POSTGRES_USER=elemental_zcash
 POSTGRES_PASSWORD=#- ENTER A SECURE PASSWORD HERE, 50+ characters, firewall the Postgres port and implement auth rate limiting -#
 ```
+
+## TMP
+
+`psql -U postgres -h 127.0.0.1 -d postgres -p 5432`
