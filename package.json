@@ -4,8 +4,8 @@
   "description": "Dockerised Postgres service for Elemental Zcash app back-ends",
   "main": "index.js",
   "scripts": {
-    "start": "docker-compose -f docker-compose.yml up -d --build",
-    "dev": "docker-compose -f docker-compose.yml up",
+    "start": "docker compose -f docker-compose.yml up -d --build",
+    "dev": "docker compose -f docker-compose.yml up",
     "stop": "docker compose down",
     "database:add": "# TODO: Remove?? docker compose exec database /docker-entrypoint-initdb.d/init-postgres.sh",
     "test": "echo \"Error: no test specified\" && exit 1"
