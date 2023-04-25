@@ -22,20 +22,24 @@ const environments = ['local', 'testing', 'staging', 'production'];
 
 const main = async () => {
   let data = { databases: {} };
+  let envOutput = '';
 
   for (const service of services) {
     for (const env of environments) {
       const _name = `${service}_${env}`;
+      const password = generateToken(96);
       data.databases[_name] = {
         username: _name,
-        password: generateToken(96)
+        password: password,
       }
-
-      const output = JSON.stringify(JSON.parse(nunjucks.renderString(template, data)), null, 2);
-  
-      fs.writeFileSync('../config.json', output);
+      envOutput += `${_name}=${password}\n`;
     }
   }
+
+  const output = JSON.stringify(JSON.parse(nunjucks.renderString(template, data)), null, 2);
+  fs.writeFileSync('../.env', envOutput);
+  fs.writeFileSync('../config.json', output);
+  fs.writeFileSync('../postgres-manager/config.json', output);
 };
 
 main();
