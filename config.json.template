@@ -1,0 +1,10 @@
+{
+  "databases": {
+    {% for name, db in databases %}
+      "{{ name }}": {
+        "username": "{{ db.username }}",
+        "password": "{{ db.password }}"
+      }{% if not loop.last %},{% endif %}
+    {% endfor %}
+  }
+}

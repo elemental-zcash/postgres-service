@@ -16,4 +16,6 @@ const pg = pgPromise(initOptions);
 
 const db = pg(config);
 
-module.exports = { pg, db };
+const makeDb = (database) => pg({ ...config, database });
+
+module.exports = { pg, makeDb, db };

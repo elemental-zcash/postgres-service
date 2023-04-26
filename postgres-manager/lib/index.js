@@ -1,4 +1,4 @@
-const { db } = require('./pg');
+const { db, makeDb } = require('./pg');
 
 let configJson;
 
@@ -31,9 +31,12 @@ const main = async () => {
           const roleExists = await db.any("SELECT * from pg_user where usename = '$1:raw'", [username || databaseName]);
 
           if (!roleExists || (Array.isArray(roleExists) && roleExists.length === 0)) {
+            const dbContext = makeDb(databaseName);
             await db.none(`CREATE ROLE $1:raw WITH NOSUPERUSER LOGIN PASSWORD $2`, [username || databaseName, password]);
             await db.none('CREATE DATABASE $1:name', [databaseName]);
             await db.none('GRANT ALL PRIVILEGES ON DATABASE $1:name TO $2:raw', [databaseName, username || databaseName]);
+            await dbContext.none('GRANT ALL PRIVILEGES ON SCHEMA public TO $1:raw', [username || databaseName]);
+            // GRANT ALL PRIVILEGES ON SCHEMA public TO username;
             console.log('Created database: ' + databaseName)
           }
         } else if (username && !password) {
