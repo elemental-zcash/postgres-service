@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Dockerised Postgres service for Elemental Zcash app back-ends",
   "main": "index.js",
+  "workspaces": [
+    "./packages/*"
+  ],
   "scripts": {
     "start": "docker compose -f docker-compose.yml up -d --build",
     "dev": "docker compose -f docker-compose.yml up",

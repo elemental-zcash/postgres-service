@@ -2,10 +2,10 @@
 
 const fs = require('fs');
 const nunjucks = require('nunjucks');
-
-const template = fs.readFileSync('../config.json.template', 'utf-8');
-
 const crypto = require('crypto');
+
+const template = fs.readFileSync('../../config.json.template', 'utf-8');
+
 
 function generateToken(length) {
   const byteLength = Math.ceil((3/4) * length);
@@ -22,7 +22,9 @@ const environments = ['local', 'testing', 'staging', 'production'];
 
 const main = async () => {
   let data = { databases: {} };
-  let envOutput = '';
+  let envOutput = `POSTGRES_USER=postgres
+POSTGRES_PASSWORD=${generateToken(96)}
+`;
 
   for (const service of services) {
     for (const env of environments) {
@@ -32,14 +34,14 @@ const main = async () => {
         username: _name,
         password: password,
       }
-      envOutput += `${_name}=${password}\n`;
+      // envOutput += `${_name}=${password}\n`;
     }
   }
 
   const output = JSON.stringify(JSON.parse(nunjucks.renderString(template, data)), null, 2);
-  fs.writeFileSync('../.env', envOutput);
-  fs.writeFileSync('../config.json', output);
-  fs.writeFileSync('../postgres-manager/config.json', output);
+  fs.writeFileSync('../../.env', envOutput);
+  fs.writeFileSync('../../config.json', output);
+  fs.writeFileSync('../../postgres-manager/config.json', output);
 };
 
 main();

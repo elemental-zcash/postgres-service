@@ -1,5 +1,8 @@
 build.config:
-	cd setup && node index.js
+	cd packages/setup && node index.js
+
+init:
+	make build.config
 
 build:
 	docker compose build
