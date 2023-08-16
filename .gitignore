@@ -105,6 +105,6 @@ dist
 
 #--- CUSTOM ENTRIES ---#
 
-postgres/data/
+packages/postgres/data/
 
 config.json
