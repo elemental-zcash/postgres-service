@@ -3,7 +3,7 @@ const { db, makeDb } = require('./pg');
 let configJson;
 
 try {
-  configJson = require('../config.json');
+  configJson = require('../../../config.json');
 } catch (err) {
   configJson = {};
 }
