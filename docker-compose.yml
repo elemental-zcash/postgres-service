@@ -6,7 +6,7 @@ services:
     # volumes:
     #   - ./postgres/data:/var/lib/postgresql/data
     volumes:
-      - ./postgres/data:/var/lib/postgresql/data
+      - ./packages/postgres/data:/var/lib/postgresql/data
     # https://github.com/docker-library/postgres/issues/544
     stop_grace_period: 5s
     ports:
@@ -27,7 +27,7 @@ services:
         aliases:
           - postgres
   database_manager:
-    build: ./postgres-manager
+    build: ./packages/postgres-manager
     env_file:
       ./.env
     links:
