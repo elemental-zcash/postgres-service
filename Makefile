@@ -1,5 +1,5 @@
 build.config:
-	cd packages/setup && node index.js
+	bash setup.sh
 
 init:
 	make build.config

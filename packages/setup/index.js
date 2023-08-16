@@ -41,7 +41,7 @@ POSTGRES_PASSWORD=${generateToken(96)}
   const output = JSON.stringify(JSON.parse(nunjucks.renderString(template, data)), null, 2);
   fs.writeFileSync('../../.env', envOutput);
   fs.writeFileSync('../../config.json', output);
-  fs.writeFileSync('../../postgres-manager/config.json', output);
+  fs.writeFileSync('../postgres-manager/config.json', output);
 };
 
 main();
